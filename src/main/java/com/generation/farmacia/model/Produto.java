@@ -28,6 +28,14 @@ public class Produto {
     @Digits(integer = 6, fraction = 2, message = "O preço é obrigatório!")
     private Float valor;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -50,6 +58,6 @@ public class Produto {
 
     public void setValor(Float valor) {
         this.valor = valor;
-    } 
+    }
     
 }
