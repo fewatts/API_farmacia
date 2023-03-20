@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.generation.farmacia.repository.CategoriasRepository;
 import com.generation.farmacia.repository.ProdutoRepository;
 import com.generation.farmacia.model.Produto;
 
@@ -29,6 +30,9 @@ import com.generation.farmacia.model.Produto;
 public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private CategoriasRepository categoriasRepository;
     
     @GetMapping
     public ResponseEntity<List<Produto>> getAll(){
@@ -46,16 +50,21 @@ public class ProdutoController {
     }
     @PostMapping
     public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto){
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(produtoRepository.save(produto));
+        if(categoriasRepository.existsById(produto.getCategorias().getId()))
+            return ResponseEntity.status(HttpStatus.CREATED)
+                   .body(produtoRepository.save(produto));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
     @PutMapping
     public ResponseEntity<Produto> put(@Valid @RequestBody Produto produto){
-        return produtoRepository.findById(produto.getId())
-                .map(resp -> ResponseEntity.status(HttpStatus.OK)
-                     .body(produtoRepository.save(produto)))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        if(produtoRepository.existsById(produto.getId())){
+            if(categoriasRepository.existsById(produto.getCategorias().getId()))
+                return ResponseEntity.status(HttpStatus.OK)
+                     .body(produtoRepository.save(produto));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     } 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")

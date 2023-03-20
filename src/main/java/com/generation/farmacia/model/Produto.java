@@ -4,11 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 @Entity
 @Table(name = "tb_produtos")
@@ -27,6 +30,10 @@ public class Produto {
     @Positive
     @Digits(integer = 6, fraction = 2, message = "O preço é obrigatório!")
     private Float valor;
+
+    @ManyToOne
+    @JsonIncludeProperties("produto")
+    private Categorias categorias;
 
     public Long getId() {
         return id;
@@ -58,6 +65,14 @@ public class Produto {
 
     public void setValor(Float valor) {
         this.valor = valor;
+    }
+
+    public Categorias getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(Categorias categorias) {
+        this.categorias = categorias;
     }
     
 }
