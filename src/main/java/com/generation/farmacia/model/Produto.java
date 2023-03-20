@@ -10,8 +10,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 @Entity
 @Table(name = "tb_produtos")
@@ -32,7 +32,7 @@ public class Produto {
     private Float valor;
 
     @ManyToOne
-    @JsonIncludeProperties("produto")
+    @JsonIgnoreProperties("produto")
     private Categorias categorias;
 
     public Long getId() {
