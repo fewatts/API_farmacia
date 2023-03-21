@@ -1,5 +1,7 @@
 package com.generation.farmacia.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +12,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -34,6 +39,9 @@ public class Produto {
     @ManyToOne
     @JsonIgnoreProperties("produto")
     private Categorias categorias;
+
+    @UpdateTimestamp
+    private LocalDate data;
 
     public Long getId() {
         return id;
@@ -74,5 +82,13 @@ public class Produto {
     public void setCategorias(Categorias categorias) {
         this.categorias = categorias;
     }
-    
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
 }

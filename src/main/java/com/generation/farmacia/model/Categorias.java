@@ -24,7 +24,7 @@ public class Categorias {
     @NotNull(message = "A categoria é obrigatória!")
     private String categorias;
 
-    @OneToMany(mappedBy = "categorias", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "categorias", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("categorias")
     private List<Produto> produto;
 
